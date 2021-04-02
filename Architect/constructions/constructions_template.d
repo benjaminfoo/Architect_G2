@@ -1,0 +1,11 @@
+const int     CONSTRUCTION_SET_<DIRECTORY_NAME>_MAX = LENGTH OF ARRAY;
+const string CONSTRUCTION_SET_<DIRECTORY_NAME>_NAME = "Household";
+
+const string CONSTRUCTION_SET_<DIRECTORY_NAME>[CONSTRUCTION_SET_<DIRECTORY_NAME>_MAX] = {
+	"a.3ds", 
+	"b.3ds", 
+	...
+};
+
+
+
