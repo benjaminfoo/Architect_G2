@@ -5,6 +5,13 @@ Eine Modifikation welche den Basis-Bau und Modifikation der Szene / Welt in Goth
 
 Die Modifikation basiert in verschiedenen Bereichen auf Daedalus-Code-Snippets von anderen Autoren - diese habe ich in den jeweiligen Dateien explizit angegeben und am Ende der Readme nochmals erwähnt.
 
+## Features
+- Errichte beliebige Konstruktionen (.. Vobs) und greife dabei auf den Model-Vorrat aus G2 zurück
+- Greife auf verschiedene Kategorien von Konstruktion (.. Vobs) zurück - bspw. Natur, Constructions, AddOn, OldWorld, NewWorld, etc. 
+- Bewege, Rotiere oder lösche neu erstellte oder bereits existierende Konstruktionen (.. Vobs)
+- Verwerfe alle aktuellen Änderungen mit der Undo-Historie
+- ...
+
 ## Requirements
 - Gothic 2 
 - Add-On: Die Nacht des Raben
@@ -17,6 +24,10 @@ Die Modifikation basiert in verschiedenen Bereichen auf Daedalus-Code-Snippets v
 - Execute the Architect_Init() method in INIT_GLOBAL() via Startup.d within <root>\dev\Steam\steamapps\common\Gothic II\_work\Data\Scripts\Content\Story\Startup.d
 
 ## Nutzung / Eingabe
+Die Nutzung des Projekts erfordert eine gewisse Einarbeitungszeit in die Verwendung der Shortcuts und Eingaben. \
+Ich habe diese angelehnt an Programme wie Blender oder den Spacer gewählt. \
+
+<img src="docs/architect_g2_usage.png">  
 
 ### Maus
 - Mausrad vorwärts: Nächste Konstruktion wählen

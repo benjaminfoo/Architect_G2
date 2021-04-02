@@ -6,7 +6,11 @@ Eine Modifikation welche den Basis-Bau und Modifikation der Szene / Welt in Goth
 Die Modifikation basiert in verschiedenen Bereichen auf Daedalus-Code-Snippets von anderen Autoren - diese habe ich in den jeweiligen Dateien explizit angegeben und am Ende der Readme nochmals erwähnt.
 
 ## Features
-- 
+- Errichte beliebige Konstruktionen (.. Vobs) und greife dabei auf den Model-Vorrat aus G2 zurück
+- Greife auf verschiedene Kategorien von Konstruktion (.. Vobs) zurück - bspw. Natur, Constructions, AddOn, OldWorld, NewWorld, etc. 
+- Bewege, Rotiere oder lösche neu erstellte oder bereits existierende Konstruktionen (.. Vobs)
+- Verwerfe alle aktuellen Änderungen mit der Undo-Historie
+- ...
 
 ## Requirements
 - Gothic 2 
