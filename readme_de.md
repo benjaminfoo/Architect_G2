@@ -35,7 +35,15 @@ Ich habe diese angelehnt an Programme wie Blender oder den Spacer gewählt. \
 - Maus Seitentaste 1: Konstruktion erstellen
 - Maus Seitentaste 2: Undo - Letzte Konstruktion aus der Historie löschen, erstellen rückgängig machen
 
-### Tastatur
+### Tastatur 
+
+#### Reguläre Tasten
+- F12: Mod Status umschalten
+- T: Translationsmodus umschalten
+- R: Rotationsmodus umschalten
+- V: Angesehenes Vob in Bearbeitung setzen
+
+#### Numpad
 - Numpad Division: Aktives Vob auf 90° setzen - entlang der z-Achse
 - Numpad 9: Um negatives Delta auf Y-Achse verschieben, rotieren
 - Numpad 8: Um positives Delta auf Y-Achse verschieben
@@ -46,14 +54,8 @@ Ich habe diese angelehnt an Programme wie Blender oder den Spacer gewählt. \
 - Numpad 2: Um positives Delta auf X-Achse verschieben
 - Numpad 1: Um positives Delta auf X-Achse verschieben
 - Numpad Enter: Bearbeitung beenden (aktives Vob abwählen)
-
 - Numpad 1: Vorherige Kategorie auswählen
 - Numpad 3: Nächste Kategorie auswählen
-
-- F12: Mod Status umschalten
-- T: Translationsmodus umschalten
-- R: Rotationsmodus umschalten
-- V: Angesehenes Vob in Bearbeitung setzen
 
 
 #### Danke an:
@@ -68,4 +70,3 @@ Ich habe diese angelehnt an Programme wie Blender oder den Spacer gewählt. \
 - [Daedalus - Syntax](https://www.worldofgothic.de/modifikation/index.php?go=daedalus)
 - [Gothic - Wiki](https://wiki.worldofgothic.de/doku.php)
 - [Gothic - Externals](https://www.worldofgothic.de/modifikation/index.php?go=g2functions)
-
