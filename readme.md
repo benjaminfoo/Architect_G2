@@ -3,7 +3,7 @@
 # Architect Mod
 Eine Modifikation welche den Basis-Bau und Modifikation der Szene / Welt in Gothic 2 einführt. \
 
-Die Modifikation basiert in verschiedenen Bereichen auf Daedalus-Code-Snippets von anderen Autoren - diese habe ich in den jeweiligen Dateien explizit angegeben und am Ende der Readme nochmals erwähnt.
+Die Modifikation basiert in verschiedenen Bereichen auf Daedalus-Code-Snippets von anderen Autoren - diese habe ich in den jeweiligen Dateien explizit angegeben und am Ende der Readme nochmals erwähnt.    
 
 ## Features
 - Errichte beliebige Konstruktionen (.. Vobs) und greife dabei auf den Model-Vorrat aus G2 zurück
@@ -12,16 +12,21 @@ Die Modifikation basiert in verschiedenen Bereichen auf Daedalus-Code-Snippets v
 - Verwerfe alle aktuellen Änderungen mit der Undo-Historie
 - ...
 
-## Requirements
+## Anforderungen
 - Gothic 2 
 - Add-On: Die Nacht des Raben
 - [LeGo 2.7.1](https://github.com/Lehona/LeGo/releases/tag/v2.7.1)
 - [Ikarus 1.2.2](https://github.com/Lehona/Ikarus/releases/tag/v1.2.2)
 
+## Download
+- Aktuell kann das Git-Repository des Projekts bezogen und wie in der folgenden Anleitung besprochen werden
+- Ich werde noch alleinstehende Zip-Releases via Github bereitstellen
+- Ich werde noch Ninja-Patches via Github bereitstellen 
+
 ## Installation
-- Include this file within the Gothic.src file
- - like this: ArchitectMod\architect_mod.d <|> in the file: <root>\Steam\steamapps\common\Gothic II\_work\Data\Scripts\Content
-- Execute the Architect_Init() method in INIT_GLOBAL() via Startup.d within <root>\dev\Steam\steamapps\common\Gothic II\_work\Data\Scripts\Content\Story\Startup.d
+- Das Git-Repository clonen
+- Den "Architect"-Ordner unter den Pfad \Steam\steamapps\common\Gothic II_work\Data\Scripts\Content kopieren, verschieben, etc.
+- Die Methode "Architect_Init()" in INIT_GLOBAL() via Startup.d (\dev\Steam\steamapps\common\Gothic II_work\Data\Scripts\Content\Story\Startup.d) ausführen (muss noch von Hand eingetragen werden - ich werde noch einen Ninja-Patch für dieses Projekt erstellen) 
 
 ## Nutzung / Eingabe
 Die Nutzung des Projekts erfordert eine gewisse Einarbeitungszeit in die Verwendung der Shortcuts und Eingaben. \
