@@ -28,7 +28,7 @@ var int translateKeyState;
 var int rotateKey;
 var int rotateKeyState;
 
-var int currentPositionXOffset;
+var int currentPositionXOffset; 
 var int currentPositionZOffset;
 
 var int positionDelta;
@@ -123,8 +123,6 @@ func void initialize_transformations(){
 
 	FF_ApplyGT(Transformation_Loop);
 
-	// register mouse listener 
-	Event_AddOnce(Cursor_Event, MouseInputForTransformationListener);
 };
 
 func void Transformation_Loop (){
@@ -364,51 +362,5 @@ func void Transformation_Loop (){
 			
 		};
 	};
-	
-};
-
-func void MouseInputForTransformationListener(var int state) {
-
-	// dont do anything if the mod is not enabled
-	if(Architect_Mod_Enabled == 0){ return; };
-    
-	// https://forum.worldofplayers.de/forum/threads/1505251-Skriptpaket-LeGo-4/page22
-	const int delay = 50;
-    var int prevUpScroll;
-    var int prevDownScroll;
-    var int prevDownRightClick;
-    var int timer; timer = Timer();
-
-	//	we're using these blocks to disable multiple recieval of scroll events
-    if (state == CUR_WheelUp) {
-        if (prevUpScroll + delay < timer) {
-            // continue executing the listener    
-        } else {
-            return; 
-        };
-        prevUpScroll = timer;
-    };
-	
-	//	we're using these blocks to disable multiple recieval of scroll events
-    if (state == CUR_WheelDown) {
-        if (prevDownScroll + delay < timer) {
-            // continue executing the listener    
-        } else {
-            return; 
-        };
-        prevDownScroll = timer;
-    };
-	
-    if(state == CUR_LeftClick) {
-	
-	};
-	
-    if(state == CUR_RightClick) {
-					
-    };
-	
-    if(state == CUR_MidClick) { 
-	
-	};
-		
+	 
 };

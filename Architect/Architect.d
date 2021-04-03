@@ -62,27 +62,27 @@ func void Architect_Init() {
 	// TODO: Document me
 	seeVobsEnabled = 0;
 	
-	// destroy the ui if there are previous versions available
-	destroy_ui();
-
-	// initialize the user interface
+    // destroy the ui if there are previous versions available
+    destroy_ui();
+    
+    // initialize the user interface
 	initialize_ui();
 	
 	// initialize user ability to modify vob trafo
-	initialize_transformations();
+    initialize_transformations();
+       
+    // register console commands
+    CC_Register(ToggleSprinting, "sprint ", "Toggle sprinting"); // this is left from the tutorial but i like it =)
+    CC_Register(SpawnConstruction, "SpawnConstruction ", "Spawns a construction.");
     
-	// register console commands
-	CC_Register(ToggleSprinting, "sprint ", "Toggle sprinting"); // this is left from the tutorial but i like it =)
-	CC_Register(SpawnConstruction, "SpawnConstruction ", "Spawns a construction.");
-	
-	// register frame functions
-	FF_ApplyGT(Architect_Input_Loop);
-	FF_ApplyGT(Architect_Late_Update);
-	FF_ApplyGT(Architect_Render_Loop);
-	
-	// register mouse listener 
-	Event_AddOnce(Cursor_Event, MouseInputListener);
-	
+    // register frame functions
+    FF_ApplyGT(Architect_Input_Loop);
+    FF_ApplyGT(Architect_Late_Update);
+    FF_ApplyGT(Architect_Render_Loop);
+    
+    // register mouse listener 
+	// Event_Add(Cursor_Event, MouseInputListener);
+	FF_ApplyGT(MouseInputListener);
 };
 
 // deletes the last built construction
@@ -432,14 +432,27 @@ func void Architect_Late_Update(){
 	};
 };
 
+
+// G1 Cursor Pointer
+// const int Cursor_Ptr = 8834220; //0x86CCAC
+
+// G2 Cursor Pointer
+const int Cursor_Ptr = 9246300; //0x8D165C
+const int CUR_WheelUp    = 3;
+const int CUR_WheelDown  = 4;
+
 // 
 // Listener / Handler for mouse input.
 // 
 // This is provided by LeGo, see: 
 // https://lego.worldofplayers.de/?Beispiele_Cursor
 // 
-func void MouseInputListener(var int state) {
+func void MouseInputListenerCustom(var int state) {
 
+	if(MEM_KeyState(CUR_WheelUp) == KEY_PRESSED){
+		PrintS("Scrolled up!");
+	};
+	
 	// dont do anything if the mod is not enabled
 	if(Architect_Mod_Enabled == 0){ return; };
 	
@@ -537,9 +550,30 @@ func void MouseInputListener(var int state) {
     if(state == CUR_MidClick) { 
 	
 	};
+
 		
 };
 
+// 
+// A custom input listener which fetches the state of the mouse wheel and delegates the informations
+// to another custom method =).
+func void MouseInputListener() {
+
+    var _Cursor c; c = _^(Cursor_Ptr);
+    Cursor_Wheel = c.wheel;
+	
+	if(Cursor_Wheel != 0) {
+	
+		if(Cursor_Wheel > 0) {
+			MouseInputListenerCustom(CUR_WheelUp);
+		}
+		else {
+			MouseInputListenerCustom(CUR_WheelDown);
+		};
+		
+	};
+	
+};
 
 // this function enables the sprint overlay, allowing the player to sprint without using a potion
 // this is left from the tutorial but i like it =)
