@@ -3,6 +3,8 @@
 // Architect Mod                            //
 // By benjamin foo                          //
 //                                          //
+// Not used currently.                      //
+//                                          //
 ////////////////////////////////////////////// 
 
 class Arc_Structure

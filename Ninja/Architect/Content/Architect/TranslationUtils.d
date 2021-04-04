@@ -1,3 +1,15 @@
+////////////////////////////////////////////////////////
+//                                                    //
+// Architect Mod                                      //
+// By benjamin foo                                    //
+//                                                    //
+// Code created by Gottfried                          //
+//                                                    //
+////////////////////////////////////////////////////////
+//
+// Code created by Gottfried
+// See: https://forum.worldofplayers.de/forum/threads/879891-Skriptpaket-Ikarus-2/page12?p=14833017&viewfull=1#post14833017
+
 /******************************************
     Trafo Hilfsfunktionen
 \******************************************

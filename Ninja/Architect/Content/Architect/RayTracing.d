@@ -9,13 +9,9 @@
 //                                                    //
 ////////////////////////////////////////////////////////
 //
-// 
 // Code created by mud-freak aka szapp (https://github.com/szapp/GothicFreeAim/)
 // See: https://github.com/szapp/GothicFreeAim/blob/master/_work/data/Scripts/Content/GFA/_intern/aimRay.d
 // 
-
-// boolean flag do indicate usage of collisions while determine an objects position
-var int register_collisions;
 
 // the reference to the last seen vob (used in combination with raytracing
 // this is not updated when creating or deleting a construction)
@@ -66,17 +62,12 @@ func void doRayCast(){
 	// artifacts will arise, like pseudo-random ignoring of walls and objects.
 	var int flags;
 
-	if(register_collisions == 0){
-		flags = 0;
-	};
+	flags =   zTRACERAY_vob_ignore_no_cd_dyn
+			 | zTraceRay_poly_normal
+			 | zTRACERAY_poly_ignore_transp // Do not change (will make trace ray unstable)
+			 | zTRACERAY_poly_test_water
+			 | zTRACERAY_vob_ignore_projectiles;
 
-	if(register_collisions == 1){
-		flags =   zTRACERAY_vob_ignore_no_cd_dyn
-				 | zTraceRay_poly_normal
-				 | zTRACERAY_poly_ignore_transp // Do not change (will make trace ray unstable)
-				 | zTRACERAY_poly_test_water
-				 | zTRACERAY_vob_ignore_projectiles;
-	};
 						 
 	var int fromPosPtr; fromPosPtr = _@(traceRayVec);
 	var int dirPosPtr; dirPosPtr = _@(traceRayVec)+sizeof_zVEC3;

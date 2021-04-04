@@ -364,3 +364,16 @@ func void Transformation_Loop (){
 	};
 	 
 };
+
+// toggles the collision bits based on the flag.
+func void toggleCollisions(var zCVob vob, var int flag){
+	if(vob == 0){ return; };
+	if(flag == 0){
+		vob.bitfield[0] = vob.bitfield[0] & ~  zCVob_bitfield0_collDetectionDynamic;
+		vob.bitfield[0] = vob.bitfield[0] & ~  zCVob_bitfield0_collDetectionStatic;
+	} else {
+		vob.bitfield[0] = vob.bitfield[0] |  zCVob_bitfield0_collDetectionDynamic;
+		vob.bitfield[0] = vob.bitfield[0] |  zCVob_bitfield0_collDetectionStatic;
+	};
+};
+

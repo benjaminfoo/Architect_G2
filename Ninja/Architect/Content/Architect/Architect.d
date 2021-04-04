@@ -10,7 +10,6 @@
 // TODO:
 // - ignore collisions of rays => hard distance move + disable currents vob collision
 // - rotate construction to view at player
-// - nicht jedes object ist eine chest! (MY_CHEST_NAME) o.s.ä.
 // - mal ne runde refactoren wäre nicht verkehrt
 // - ConcatStrings und Konsorten mit https://lego.worldofplayers.de/?Beispiele_StringBuilder ersetzen
 
@@ -35,6 +34,8 @@ var int undoArray;
 // the state of the key usage for mouse 2 (used to detect if the player is currently placing some construction somewhere)
 var int placementReturnState; 
 
+// boolean flag do indicate usage of collisions while determine an objects position
+var int register_collisions;
 
 // the initialize function, (should) get(s) called in Startup.d
 func void Architect_Init() {
@@ -112,7 +113,7 @@ func void DeleteConstruction(var int vobPtr){
 	
 };
 
-func void DeleteRayTracedObject(){
+func void DeleteRayCastedObject(){
 		
 		if(currentlySeenVob <= 0) { return; };
 		
@@ -157,9 +158,9 @@ func string SpawnConstructionWithPosition(var string constructionName, var int p
 	// add the pointer of the vob to the construction history list
 	MEM_ArrayInsert (undoArray, currentConstructionPtr);
 	
-	PrintS(ConcatStrings4("Spawned construction: ", constructionName, " - Total construction: ", IntToString(MEM_ArraySize(undoArray))));
+	PrintS(cs4("Spawned construction: ", constructionName, " - Total construction: ", IntToString(MEM_ArraySize(undoArray))));
 			
-    return ConcatStrings4("Spawned construction: ", constructionName, " - Total construction: ", IntToString(MEM_ArraySize(undoArray)));
+    return cs4("Spawned construction: ", constructionName, " - Total construction: ", IntToString(MEM_ArraySize(undoArray)));
 };
 
 
@@ -216,6 +217,10 @@ func void Architect_Input_Loop() {
 	};
 	
 	
+	// dont do anything if the mod is not enabled
+	if(Architect_Mod_Enabled == 0){ return; };
+	
+	// These options are only valid if the mod is active
 	
 	// If the Key "F10" is pressed ...
 	// TODO: just for debugging - remove in near future
@@ -229,7 +234,7 @@ func void Architect_Input_Loop() {
 	if (MEM_KeyState (MOUSE_XBUTTON1) == KEY_RELEASED) {
 		
 		if(currentlySeenVob > 0){
-			DeleteRayTracedObject();
+			DeleteRayCastedObject();
 		} else if(MEM_ArraySize(undoArray) > 0){
 			var int listItemPointer;
 			listItemPointer = MEM_ArrayTop(undoArray);
@@ -270,11 +275,26 @@ func void Architect_Input_Loop() {
 
 
 	
-	// delete the last created construction
-	if ( MEM_KeyState (KEY_X) == KEY_RELEASED) {
-		if (register_collisions == 0){ register_collisions = 1; }
-		else if (register_collisions == 1){ register_collisions = 0; };
-		PrintS(ConcatStrings("Register Collisions: ", IntToString(register_collisions)));
+	// toggle the collision bits of the current construction
+	if ( MEM_KeyState (KEY_NUMPAD5) == KEY_RELEASED) {
+	
+		if(currentConstructionPtr == 0) { return; };
+	
+		var zCVob vob; vob = _^(currentConstructionPtr);
+			
+		if (register_collisions == 1){ 
+			register_collisions = 0; 
+			PrintS(ConcatStrings("Switched collision of vob to: ", "disabled"));
+		}
+		else if (register_collisions == 0){ 
+			register_collisions = 1; 
+			PrintS(ConcatStrings("Switched collision of vob to: ", "enabled"));
+		};
+		
+		toggleCollisions(vob, register_collisions);
+					
+		Snd_Play("M_FALL_SMALL");
+		
 	};
 	
 
@@ -283,6 +303,9 @@ func void Architect_Input_Loop() {
 	// http://lego.worldofplayers.de/?Ikarus_Dokumentation
 	// If the Key "MOUSE_XBUTTON2" is pressed, spawn the construction
 	if (placementReturnState == KEY_PRESSED) {
+				
+		// all constructions have a activated collision per default		
+		register_collisions = 1; 
 				
 		// there is no construction spawned yet, spawn one
 		doRayCast();
