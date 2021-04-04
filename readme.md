@@ -84,6 +84,7 @@ Ich habe diese angelehnt an Programme wie Blender oder den Spacer gewählt.
 - [Mud-Freak](https://github.com/szapp/) für [Ninja](https://github.com/szapp/Ninja), [GFA](https://github.com/szapp/GothicFreeAim/) und eine nicht-aufzählbare Menge nützlicher Code-Snippets
 
 #### Weiterführendes
+- [Release-Thread im WOG](https://forum.worldofplayers.de/forum/threads/1575628-Release-Architect)
 - [Ninja](https://forum.worldofplayers.de/forum/threads/1515286-Ninja)
 - [ScriptBin](https://forum.worldofplayers.de/forum/threads/1495001-Scriptsammlung-ScriptBin)
 - [Die stackbasierte VM Gothic](https://forum.worldofplayers.de/forum/threads/907096-WIP-Tutorial-Fortgeschritten-bis-Experten-Die-Gothic-dat-und-der-Datenstack)
