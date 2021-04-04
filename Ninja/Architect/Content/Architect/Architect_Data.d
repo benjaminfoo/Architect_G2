@@ -18,6 +18,7 @@ var int currentConstructionCategoryIndex;
 var string currentConstructionCategoryName; 
 
 // the construction categories 
+// every of the following lines is a ID for a category, so this is a mapping between ID <-> Category for the read ReadUIArray method
 const int CONSTRUCTION_CATEGORY_MOBS_ADDONS = 0;
 const int CONSTRUCTION_CATEGORY_MOBS_HOUSEHOLD = 1;
 const int CONSTRUCTION_CATEGORY_MOBS_MISC = 2;
@@ -27,7 +28,8 @@ const int CONSTRUCTION_CATEGORY_MOBS_OLDWORLD= 5;
 const int CONSTRUCTION_CATEGORY_MOBS_PLANKS = 6;
 const int CONSTRUCTION_CATEGORY_MOBS_STONES = 7;
 const int CONSTRUCTION_CATEGORY_CUSTOM_CONSTRUCTION = 8;
-const int CONSTRUCTION_CATEGORIES_MAX = 9;
+const int CONSTRUCTION_CATEGORY_CUSTOM_NATURE = 9;
+const int CONSTRUCTION_CATEGORIES_MAX = 10;
 
 // reads an entry from an given array by an index
 // this function is used for reading entries from category array, for example: 
@@ -86,9 +88,15 @@ func string ReadUIArray(var int which_array, var int index) {
 		ARC_STRUCTURES_MAX = CONSTRUCTION_SET_CUSTOM_CONSTRUCTION_MAX;
 		currentConstructionCategoryName = CONSTRUCTION_SET_CUSTOM_CONSTRUCTION_NAME;
 		return MEM_ReadStatStringArr(CONSTRUCTION_SET_CUSTOM_CONSTRUCTION, currentlySelectedBuildingIndex);
+    }
+	
+	else if which_array == CONSTRUCTION_CATEGORY_CUSTOM_NATURE {
+		ARC_STRUCTURES_MAX = CONSTRUCTION_SET_CUSTOM_NATURE_GRASS_MAX;
+		currentConstructionCategoryName = CONSTRUCTION_SET_CUSTOM_NATURE_GRASS_NAME;
+		return MEM_ReadStatStringArr(CONSTRUCTION_SET_CUSTOM_NATURE_GRASS, currentlySelectedBuildingIndex);
     };
 	
-	return "You shouldn't have reached this string ...";
+	return "You shouldn't have reached this line ...";
 };
 
 

@@ -37,9 +37,13 @@ var int placementReturnState;
 // boolean flag do indicate usage of collisions while determine an objects position
 var int register_collisions;
 
+// string builder for the ingame help
+var int ingameHelpSB; 
+
 // the initialize function, (should) get(s) called in Startup.d
 func void Architect_Init() {
-
+	
+	// initialize the dynamic array for the undo history
 	undoArray = MEM_ArrayCreate();
 
 	// raytracing.register_collisions
@@ -63,6 +67,9 @@ func void Architect_Init() {
 	// TODO: Document me
 	seeVobsEnabled = 0;
 	
+	// initialize player related settings like home position, etc.
+	playerSettings_init();
+	
     // destroy the ui if there are previous versions available
     destroy_ui();
     
@@ -73,7 +80,7 @@ func void Architect_Init() {
     initialize_transformations();
        
     // register console commands
-    CC_Register(ToggleSprinting, "sprint ", "Toggle sprinting"); // this is left from the tutorial but i like it =)
+    CC_Register(ShowHelp, "Architect ", "Shows help about the architect mod.");
     CC_Register(SpawnConstruction, "SpawnConstruction ", "Spawns a construction.");
     
     // register frame functions
@@ -84,6 +91,37 @@ func void Architect_Init() {
     // register mouse listener 
 	// Event_Add(Cursor_Event, MouseInputListener);
 	FF_ApplyGT(MouseInputListener);
+};
+
+
+// this function enables the sprint overlay, allowing the player to sprint without using a potion
+// this is left from the tutorial but i like it =)
+func string ShowHelp(var string paramter) {
+
+	if(ingameHelpSB != 0){
+		SB_Destroy();
+	};
+
+	// create a new string builder, but build its contents just once
+	if(ingameHelpSB == 0){
+		ingameHelpSB = SB_New();
+		
+		SB (Architect_Version);
+		SB ("\n");
+		SB ("Dies ist die In-Game Hilfe der Architect Mod."); 
+		SB ("\n");
+		SB ("Set_Home - Definiert die aktuelle Position als Heimat-Position. \n");
+		SB ("Get_Home - Teleportiert den Spieler zur zuvor definierten Heimt-Position. \n");
+		SB ("\n");
+		SB ("See the release thread for further help: \n");
+		SB ("https://forum.worldofplayers.de/forum/threads/1575628-Release-Architect");
+	};
+
+    // SB (", ");                // String anhängen
+    // SB_Destroy();             // StringBuilder zerstören
+	// PrintS(SB_ToString());    // Als String ausgeben
+
+    return SB_ToString();
 };
 
 // deletes the last built construction
@@ -105,10 +143,8 @@ func void DeleteConstruction(var int vobPtr){
 		// notify the user "something gets scrambled, it must have been destroyed!"
 		Snd_Play("Scroll_Unfold");
 		
-		
 		PrintS(ConcatStrings("Total constructions: ", IntToString(MEM_ArraySize(undoArray))));
 			
-	
 	};
 	
 };
@@ -144,7 +180,7 @@ func string SpawnConstructionWithPosition(var string constructionName, var int p
 	// the pointer to the current object / construction which gets spawned
 	// update pointer reference of the last built construction
 	// currentConstructionPtr = InsertMobContainerPos("myNewChest", constructionName, _@(position), 0);
-	currentConstructionPtr = InsertVobPos ("customObject", constructionName, _@(position), 0);
+	currentConstructionPtr = InsertVobPos ("architect_customObject", constructionName, _@(position), 0);
 	
 	// get a reference to the visual object via its pointer 
 	var zCVob vob; vob = _^(currentConstructionPtr);
@@ -598,12 +634,10 @@ func void MouseInputListener() {
 	
 };
 
-// this function enables the sprint overlay, allowing the player to sprint without using a potion
-// this is left from the tutorial but i like it =)
-func string ToggleSprinting(var string param) {
-    Mdl_ApplyOverlayMDS(hero, "HUMANS_SPRINT.MDS");
-    return "Sprinting activated";
-};
+
+
+
+
 
 
 

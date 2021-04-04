@@ -1,6 +1,6 @@
 [BEGINVDF]
 Comment=The Architect mod introduces base-building and scene modification at runtime.
-BaseDir=C:\dev\Steam\steamapps\common\Gothic2_Tools\architect_ninja
+BaseDir=C:\dev\Steam\steamapps\common\G2_Architect_Mod\Architect_G2
 VDFName=C:\dev\Steam\steamapps\common\Gothic II\Data\Architect.vdf
 [FILES]
 Ninja\Architect\* -r

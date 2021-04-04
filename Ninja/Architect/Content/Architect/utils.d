@@ -59,6 +59,13 @@ func string cs2 (var string s1, var string s2) {
 
 };
 
+
+func string cs2i (var string s1, var int i1) {
+
+    return ConcatStrings (s1, i2s(i1));
+
+};
+
 func string cs3 (var string s1, var string s2, var string s3) {
 
     return cs2 (cs2 (s1, s2), s3);
@@ -136,6 +143,5 @@ func int max6(var int i1, var int i2, var int i3, var int i4, var int i5, var in
     return max(max5(i1, i2, i3, i4, i5), i6);
 
 };
-
 
 

@@ -1,6 +1,9 @@
 Ikarus
 LeGo
 
+Content\Architect\consts.d
+Content\Architect\utils.d
+
 Content\Architect\constructions\constructions_mobs_addons.d
 Content\Architect\constructions\constructions_mobs_household.d
 Content\Architect\constructions\constructions_mobs_misc.d
@@ -10,10 +13,10 @@ Content\Architect\constructions\constructions_oldworld.d
 Content\Architect\constructions\constructions_planks.d
 Content\Architect\constructions\constructions_stones.d
 Content\Architect\constructions\constructions_custom_construction.d
+Content\Architect\constructions\constructions_custom_nature_grass.d
 Content\Architect\Architect_Data.d
 
-Content\Architect\consts.d
-Content\Architect\utils.d
+Content\Architect\PlayerSettings.d
 
 Content\Architect\TranslationUtils.d
 Content\Architect\Transformations.d
