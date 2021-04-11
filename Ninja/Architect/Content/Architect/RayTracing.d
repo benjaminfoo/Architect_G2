@@ -82,14 +82,7 @@ func void doRayCast(){
 		CALL__fastcall(_@(worldPtr), _@(fromPosPtr), zCWorld__TraceRayNearestHit_Vob);
 		call = CALL_End();
 	};
-	
-	// Retrieve trace ray report
-	var int foundVob; foundVob = MEM_World.foundVob;
-	
-	if(seeVobsEnabled==1){
-		currentlySeenVob = foundVob;
-	};
-	
+		
 	var int intersection[3];
 	MEM_CopyBytes(_@(MEM_World.foundIntersection), _@(intersection), sizeof_zVEC3);
 	
@@ -100,6 +93,16 @@ func void doRayCast(){
 		
 	// needed for allocation
 	var int hit;
+	
+		// Retrieve trace ray report
+	var int foundVob; foundVob = MEM_World.foundVob;
+	
+	if(seeVobsEnabled==1){
+	
+		if(foundVob == 0){ return; };
+	
+		currentlySeenVob = foundVob;
+	};
 
 	// PrintS("... done ray tracing!");
 

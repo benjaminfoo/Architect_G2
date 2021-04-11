@@ -14,6 +14,10 @@ var int currentPositionX;
 var int currentPositionY;
 var int currentPositionZ;
 
+var int curRotX;
+var int curRotY; 
+var int curRotZ;
+
 var int xTranslateEnabled;
 var int yTranslateEnabled;
 var int zTranslateEnabled;
@@ -114,7 +118,7 @@ func void initialize_transformations(){
 	rotateKey     = KEY_R;
 	
 	positionDelta     = 1;
-	positionDeltaStep     = 1;
+	positionDeltaStep = 1;
 	positionDeltaMin = 1;
 	positionDeltaMax = 10;
 	
@@ -161,7 +165,7 @@ func void Transformation_Loop (){
 		};
 
 		updateModeView();
-		Snd_Play("M_FALL_SMALL");
+		Snd_Play(TOGGLE_ROTATION_BLIP);
 	};
 
 	// get a reference to the visual object via its pointer 
@@ -184,7 +188,7 @@ func void Transformation_Loop (){
 			vob.bitfield[0] = vob.bitfield[0] & ~  zCVob_bitfield0_collDetectionDynamic;
 			vob.bitfield[0] = vob.bitfield[0] & ~  zCVob_bitfield0_collDetectionStatic;
 
-			TRF_RotateY(vob, mkf(-positionDelta));
+			TRF_RotateY(vob, negf(divf(positionDelta, 10)));
 
 			vob.bitfield[0] = vob.bitfield[0] |  zCVob_bitfield0_collDetectionDynamic;
 			vob.bitfield[0] = vob.bitfield[0] |  zCVob_bitfield0_collDetectionStatic;
@@ -215,7 +219,7 @@ func void Transformation_Loop (){
 			vob.bitfield[0] = vob.bitfield[0] & ~  zCVob_bitfield0_collDetectionDynamic;
 			vob.bitfield[0] = vob.bitfield[0] & ~  zCVob_bitfield0_collDetectionStatic;
 
-			TRF_RotateY(vob, mkf(positionDelta));
+			TRF_RotateY(vob, divf(positionDelta, 10));
 
 			vob.bitfield[0] = vob.bitfield[0] |  zCVob_bitfield0_collDetectionDynamic;
 			vob.bitfield[0] = vob.bitfield[0] |  zCVob_bitfield0_collDetectionStatic;
@@ -281,7 +285,8 @@ func void Transformation_Loop (){
 			vob.bitfield[0] = vob.bitfield[0] & ~  zCVob_bitfield0_collDetectionDynamic;
 			vob.bitfield[0] = vob.bitfield[0] & ~  zCVob_bitfield0_collDetectionStatic;
 
-			TRF_RotateX(vob, mkf(-positionDelta));
+
+			TRF_RotateY(vob, divf(-positionDelta, 10));
 
 			vob.bitfield[0] = vob.bitfield[0] |  zCVob_bitfield0_collDetectionDynamic;
 			vob.bitfield[0] = vob.bitfield[0] |  zCVob_bitfield0_collDetectionStatic;
@@ -324,7 +329,7 @@ func void Transformation_Loop (){
 		
 	};
 	
-	if (MEM_KeyState (KEY_NUMPAD0) == KEY_HOLD) {
+	if (MEM_KeyState (KEY_NUMPAD0) == KEY_RELEASED) {
 			vob.bitfield[0] = vob.bitfield[0] & ~  zCVob_bitfield0_collDetectionDynamic;
 			vob.bitfield[0] = vob.bitfield[0] & ~  zCVob_bitfield0_collDetectionStatic;
 
@@ -336,15 +341,6 @@ func void Transformation_Loop (){
 			VobPositionUpdated(currentConstructionPtr);
 			
 			PrintS("Rotation has been resetted");
-	};
-	
-	
-	if (MEM_KeyState (KEY_ADD) == KEY_RELEASED) {
-		updateDelta(1);
-	};
-	
-	if (MEM_KeyState (KEY_SUBTRACT) == KEY_RELEASED) {
-		updateDelta(-1);
 	};
 	
 	if (MEM_KeyState (KEY_DIVIDE) == KEY_RELEASED) {

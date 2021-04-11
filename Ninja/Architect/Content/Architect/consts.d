@@ -37,3 +37,23 @@ const int zCWorld__TraceRayNearestHit_Vob            =  6430624; //0x621FA0
 
 
 
+// 
+// Sounds
+// These sounds are used throughout the mod in order to notify the user.
+// 
+
+const string TOGGLE_TRANSLATION_BLIP = "M_FALL_SMALL";
+const string TOGGLE_ROTATION_BLIP = "M_FALL_SMALL";
+const string TOGGLE_COLLISION_BLIP = "M_FALL_SMALL";
+const string NOTIFY_DELETE_CONSTRUCTION = "Scroll_Unfold";
+const string NOTIFY_CONSTRUCTION_BUILT = "PickOre";
+const string NOTIFY_DISABLE_EDITING = "M_FALL_SMALL";
+const string NOTIFY_VOB_GRAB = "Hammer_A2";
+
+
+// 
+// Keys
+// These keys are used throughout the mod in order to allow user input.
+// 
+
+// TODO

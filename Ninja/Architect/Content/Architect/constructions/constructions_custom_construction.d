@@ -2,7 +2,7 @@ const int     CONSTRUCTION_SET_CUSTOM_CONSTRUCTION_MAX = 43;
 const string CONSTRUCTION_SET_CUSTOM_CONSTRUCTION_NAME = "Construction";
 
 const string CONSTRUCTION_SET_CUSTOM_CONSTRUCTION[CONSTRUCTION_SET_CUSTOM_CONSTRUCTION_MAX] = {
-	"EVT_Castel_Plate.3ds", 
+	"EVT_Castel_Plate.3ds",  
 	"MIN_Lob_Planks_2x3m.3ds", 
 	"MIN_Lob_Planks_2x4m.3ds", 
 	"MIN_Lob_Planks_2x5m.3ds", 

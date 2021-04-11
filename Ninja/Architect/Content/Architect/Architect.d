@@ -141,7 +141,7 @@ func void DeleteConstruction(var int vobPtr){
 		MEM_ArrayPop(undoArray);
 		
 		// notify the user "something gets scrambled, it must have been destroyed!"
-		Snd_Play("Scroll_Unfold");
+		Snd_Play(NOTIFY_DELETE_CONSTRUCTION);
 		
 		PrintS(ConcatStrings("Total constructions: ", IntToString(MEM_ArraySize(undoArray))));
 			
@@ -161,7 +161,7 @@ func void DeleteRayCastedObject(){
 		currentlySeenVob = 0;
 		
 		// notify the user "something gets scrambled, it must have been destroyed!"
-		Snd_Play("Scroll_Unfold");
+		Snd_Play(NOTIFY_DELETE_CONSTRUCTION);
 };
 
 // 
@@ -251,6 +251,86 @@ func void Architect_Input_Loop() {
 		};
 		
 	};
+
+
+	// If the Key "F12" is pressed - toggle state of the mod
+	if (MEM_KeyState (KEY_G) == KEY_RELEASED) {
+	
+		var zCVob her; her = Hlp_GetNpc(hero);
+		
+		PrintS ("");
+		PrintS (ConcatStrings ("x: ", IntToString(roundf(her.trafoObjToWorld[ 3]))));
+		PrintS (ConcatStrings ("y: ", IntToString(roundf(her.trafoObjToWorld[ 7]))));
+		PrintS (ConcatStrings ("z: ", IntToString(roundf(her.trafoObjToWorld[11]))));
+		PrintS ("");
+		
+		PrintS ("");
+		PrintS (ConcatStrings ("v1_x: ", IntToString(roundf(her.trafoObjToWorld[ 0]))));
+		PrintS (ConcatStrings ("v1_y: ", IntToString(roundf(her.trafoObjToWorld[ 4]))));
+		PrintS (ConcatStrings ("v1_z: ", IntToString(roundf(her.trafoObjToWorld[ 8]))));
+		PrintS ("");		
+		
+		PrintS ("");
+		PrintS (ConcatStrings ("v2_x: ", IntToString(roundf(her.trafoObjToWorld[ 1]))));
+		PrintS (ConcatStrings ("v2_y: ", IntToString(roundf(her.trafoObjToWorld[ 5]))));
+		PrintS (ConcatStrings ("v2_z: ", IntToString(roundf(her.trafoObjToWorld[ 9]))));
+		PrintS ("");
+		
+		PrintS ("");
+		PrintS (ConcatStrings ("v3_x: ", IntToString(roundf(her.trafoObjToWorld[ 2]))));
+		PrintS (ConcatStrings ("v3_y: ", IntToString(roundf(her.trafoObjToWorld[ 6]))));
+		PrintS (ConcatStrings ("v3_z: ", IntToString(roundf(her.trafoObjToWorld[10]))));
+		PrintS ("");
+		
+	};
+	
+	
+	// If the Key "F12" is pressed - toggle state of the mod
+	if (MEM_KeyState (KEY_H) == KEY_RELEASED) {
+	
+		var zCVob her; her = Hlp_GetNpc(hero);
+		
+		her.trafoObjToWorld[3] = addf(her.trafoObjToWorld[3], 1);
+
+		PrintS ("Adjusting ...");
+		
+		VobPositionUpdated(hero);
+	};
+
+	/*
+
+	// If the Key "F12" is pressed - toggle state of the mod
+	if (MEM_KeyState (KEY_F3) == KEY_RELEASED) {
+	
+
+		PrintS(ConcatStrings("Spawning: ", "Bed"));
+			
+		// get position of the player
+		var zCVob her; her = Hlp_GetNpc(hero);
+		
+		// create an empty integer array which holds the current position of the player
+		var int playerPosition[3];
+
+		// return the x,y,z coordinates of the player from the vob's transformation matrix
+		playerPosition[0] = her.trafoObjToWorld[3];
+		playerPosition[1] = her.trafoObjToWorld[7];
+		playerPosition[2] = her.trafoObjToWorld[11];
+
+		// the pointer to the current object / construction which gets spawned
+		// update pointer reference of the last built construction
+		// currentConstructionPtr = InsertMobContainerPos("myNewChest", constructionName, _@(position), 0);
+		// InsertMobDoorPos       (string objName, string visual, int[3] *pos, int[3] *dir)
+		currentConstructionPtr = InsertMobDoorPos ("MOBNAME_BED", "BEDHIGH_NW_EDEL_01.ASC", _@(playerPosition), 0);
+
+		// func void SetMobMisc(int mobPtr, string triggerTarget, string useWithItem, string onStateFuncName)
+		SetMobMisc(currentConstructionPtr, "", "", "SLEEPABIT");
+		
+					
+		SetMobName(currentConstructionPtr, "MOBNAME_BED");                    // Set focus name
+		
+	};
+	
+	*/
 	
 	
 	// dont do anything if the mod is not enabled
@@ -329,7 +409,7 @@ func void Architect_Input_Loop() {
 		
 		toggleCollisions(vob, register_collisions);
 					
-		Snd_Play("M_FALL_SMALL");
+		Snd_Play(TOGGLE_COLLISION_BLIP);
 		
 	};
 	
@@ -401,7 +481,7 @@ func void Architect_Input_Loop() {
 		PrintS(ConcatStrings("Spawning construction: ", currentlySelectedBuildingName));
 		
 		// notify the user: "i've built something!"
-		Snd_Play("PickOre");
+		Snd_Play(NOTIFY_CONSTRUCTION_BUILT);
 		
 		// disable the feature to modify the rotation or translation of the current construction
 		disableRotationMode();
@@ -421,7 +501,7 @@ func void Architect_Input_Loop() {
 			disableTranslationMode();
 			disableRotationMode();
 			
-			Snd_Play("M_FALL_SMALL");
+			Snd_Play(NOTIFY_DISABLE_EDITING);
 			
 			updateModeView();
 
@@ -454,7 +534,7 @@ func void Architect_Input_Loop() {
 		
 		seeVobsEnabled = 0;
 		
-		Snd_Play("Hammer_A2");
+		Snd_Play(NOTIFY_VOB_GRAB);
 		
 	};	
 	
@@ -470,6 +550,7 @@ func void Architect_Late_Update(){
 	// use the ray tracing to determine its new position
 	if(constructionBeingPlaced != 0 && currentConstructionPtr != 0){
 	
+
 		// do another raycast => update the intersection components
 		doRayCast();
 						
@@ -480,7 +561,7 @@ func void Architect_Late_Update(){
 			currentPositionY, 
 			currentPositionZ
 		);		
-		
+				
 		// the vob wont recognize any collisions .. BUT THE OTHER VOBS WITHIN THE WORLD Q_Q
 		if(register_collisions == 0){
 			// get a reference to the visual object via its pointer 
