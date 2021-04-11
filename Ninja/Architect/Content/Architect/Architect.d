@@ -179,9 +179,85 @@ func string SpawnConstructionWithPosition(var string constructionName, var int p
 
 	// the pointer to the current object / construction which gets spawned
 	// update pointer reference of the last built construction
-	// currentConstructionPtr = InsertMobContainerPos("myNewChest", constructionName, _@(position), 0);
 	currentConstructionPtr = InsertVobPos ("architect_customObject", constructionName, _@(position), 0);
 	
+	// get a reference to the visual object via its pointer 
+	var zCVob vob; vob = _^(currentConstructionPtr);
+			
+	// adjust bitfields
+	// - toggle collision
+	// - only show the visual of the vob
+	// - etc. -> see bitfields at the end of the file
+	vob.bitfield[0] = zCVob_bitfield0_showVisual;
+	
+	// add the pointer of the vob to the construction history list
+	MEM_ArrayInsert (undoArray, currentConstructionPtr);
+	
+	PrintS(cs4("Spawned construction: ", constructionName, " - Total construction: ", IntToString(MEM_ArraySize(undoArray))));
+			
+    return cs4("Spawned construction: ", constructionName, " - Total construction: ", IntToString(MEM_ArraySize(undoArray)));
+};
+
+
+// 
+// spawn a construction by providing a name and a position
+// NOTE: 
+// - Mobnames are defined in  : Gothic_2_Workspace\_work\Data\Scripts\Content\Story\Text.d
+// - Mob Functions are def. in: Gothic_2_Workspace\_work\Data\Scripts\Content\AI\AI_Intern\AI_Constants.d 
+func string SpawnInteractiveConstructionWithPosition(var string constructionName, var int posx, var int posy, var int posz) {
+
+	PrintS(ConcatStrings("Spawning: ", constructionName));
+	
+	// create an empty integer array which holds the current position of the player
+	var int position[3];
+	position[0] = posx;
+	position[1] = posy;
+	position[2] = posz;
+
+	if(STR_IndexOf(constructionName, "BED") != -1){
+		
+		// the pointer to the current object / construction which gets spawned
+		// update pointer reference of the last built construction
+		currentConstructionPtr = InsertMobDoorPos ("MOBNAME_BED", constructionName, _@(position), 0);
+
+		// func void SetMobMisc(int mobPtr, string triggerTarget, string useWithItem, string onStateFuncName)
+		SetMobMisc(currentConstructionPtr, "", "", "SLEEPABIT");
+			
+		// Set focus name			
+		SetMobName(currentConstructionPtr, "MOBNAME_BED");
+		
+	} else if(STR_IndexOf(constructionName, "INNOS") != -1){
+		
+		// the pointer to the current object / construction which gets spawned
+		// update pointer reference of the last built construction
+		currentConstructionPtr = InsertMobInterPos ("MOBNAME_INNOS", constructionName, _@(position), 0);
+
+		// func void SetMobMisc(int mobPtr, string triggerTarget, string useWithItem, string onStateFuncName)
+		SetMobMisc(currentConstructionPtr, "", "", "PRAYSHRINE");
+
+		// Set focus name
+		SetMobName(currentConstructionPtr, "MOBNAME_INNOS");
+
+	} else if(STR_IndexOf(constructionName, "LAB") != -1){
+		
+		// the pointer to the current object / construction which gets spawned
+		// update pointer reference of the last built construction
+		currentConstructionPtr = InsertMobInterPos ("MOBNAME_LAB", constructionName, _@(position), 0);
+
+		// func void SetMobMisc(int mobPtr, string triggerTarget, string useWithItem, string onStateFuncName)
+		SetMobMisc(currentConstructionPtr, "", "", "POTIONALCHEMY");
+				
+		// Set focus name
+		SetMobName(currentConstructionPtr, "MOBNAME_LAB");
+
+	};
+	
+	if(currentConstructionPtr == 0){
+		const string errMsg = "Error while spawning: Invalid SpawnInteractiveConstructionWithPosition call!";
+		PrintS(errMsg);
+		return errMsg;
+	};
+			
 	// get a reference to the visual object via its pointer 
 	var zCVob vob; vob = _^(currentConstructionPtr);
 			
@@ -252,40 +328,9 @@ func void Architect_Input_Loop() {
 		
 	};
 
-
-	// If the Key "F12" is pressed - toggle state of the mod
-	if (MEM_KeyState (KEY_G) == KEY_RELEASED) {
-	
-		var zCVob her; her = Hlp_GetNpc(hero);
-		
-		PrintS ("");
-		PrintS (ConcatStrings ("x: ", IntToString(roundf(her.trafoObjToWorld[ 3]))));
-		PrintS (ConcatStrings ("y: ", IntToString(roundf(her.trafoObjToWorld[ 7]))));
-		PrintS (ConcatStrings ("z: ", IntToString(roundf(her.trafoObjToWorld[11]))));
-		PrintS ("");
-		
-		PrintS ("");
-		PrintS (ConcatStrings ("v1_x: ", IntToString(roundf(her.trafoObjToWorld[ 0]))));
-		PrintS (ConcatStrings ("v1_y: ", IntToString(roundf(her.trafoObjToWorld[ 4]))));
-		PrintS (ConcatStrings ("v1_z: ", IntToString(roundf(her.trafoObjToWorld[ 8]))));
-		PrintS ("");		
-		
-		PrintS ("");
-		PrintS (ConcatStrings ("v2_x: ", IntToString(roundf(her.trafoObjToWorld[ 1]))));
-		PrintS (ConcatStrings ("v2_y: ", IntToString(roundf(her.trafoObjToWorld[ 5]))));
-		PrintS (ConcatStrings ("v2_z: ", IntToString(roundf(her.trafoObjToWorld[ 9]))));
-		PrintS ("");
-		
-		PrintS ("");
-		PrintS (ConcatStrings ("v3_x: ", IntToString(roundf(her.trafoObjToWorld[ 2]))));
-		PrintS (ConcatStrings ("v3_y: ", IntToString(roundf(her.trafoObjToWorld[ 6]))));
-		PrintS (ConcatStrings ("v3_z: ", IntToString(roundf(her.trafoObjToWorld[10]))));
-		PrintS ("");
-		
-	};
 	
 	
-	// If the Key "F12" is pressed - toggle state of the mod
+	// If the Key is pressed - toggle state of the mod
 	if (MEM_KeyState (KEY_H) == KEY_RELEASED) {
 	
 		var zCVob her; her = Hlp_GetNpc(hero);
@@ -297,40 +342,6 @@ func void Architect_Input_Loop() {
 		VobPositionUpdated(hero);
 	};
 
-	/*
-
-	// If the Key "F12" is pressed - toggle state of the mod
-	if (MEM_KeyState (KEY_F3) == KEY_RELEASED) {
-	
-
-		PrintS(ConcatStrings("Spawning: ", "Bed"));
-			
-		// get position of the player
-		var zCVob her; her = Hlp_GetNpc(hero);
-		
-		// create an empty integer array which holds the current position of the player
-		var int playerPosition[3];
-
-		// return the x,y,z coordinates of the player from the vob's transformation matrix
-		playerPosition[0] = her.trafoObjToWorld[3];
-		playerPosition[1] = her.trafoObjToWorld[7];
-		playerPosition[2] = her.trafoObjToWorld[11];
-
-		// the pointer to the current object / construction which gets spawned
-		// update pointer reference of the last built construction
-		// currentConstructionPtr = InsertMobContainerPos("myNewChest", constructionName, _@(position), 0);
-		// InsertMobDoorPos       (string objName, string visual, int[3] *pos, int[3] *dir)
-		currentConstructionPtr = InsertMobDoorPos ("MOBNAME_BED", "BEDHIGH_NW_EDEL_01.ASC", _@(playerPosition), 0);
-
-		// func void SetMobMisc(int mobPtr, string triggerTarget, string useWithItem, string onStateFuncName)
-		SetMobMisc(currentConstructionPtr, "", "", "SLEEPABIT");
-		
-					
-		SetMobName(currentConstructionPtr, "MOBNAME_BED");                    // Set focus name
-		
-	};
-	
-	*/
 	
 	
 	// dont do anything if the mod is not enabled
@@ -425,14 +436,30 @@ func void Architect_Input_Loop() {
 				
 		// there is no construction spawned yet, spawn one
 		doRayCast();
+		
+				
+		// update for interactive vobs
+		if(STR_IndexOf(currentlySelectedBuildingName, ".ASC") > 0){
 
-		// spawn the construction
-		SpawnConstructionWithPosition(
-			currentlySelectedBuildingName,
-			currentPositionX, 
-			currentPositionY, 
-			currentPositionZ 
-		);
+			// spawn the interactive construction
+			SpawnInteractiveConstructionWithPosition(
+				currentlySelectedBuildingName,
+				currentPositionX, 
+				currentPositionY, 
+				currentPositionZ 
+			);
+			
+		} else { // this is a regular vob without any interactive elements
+
+			// spawn the construction
+			SpawnConstructionWithPosition(
+				currentlySelectedBuildingName,
+				currentPositionX, 
+				currentPositionY, 
+				currentPositionZ 
+			);
+		
+		};
 	
 		// allow position update 
 		constructionBeingPlaced = 1;

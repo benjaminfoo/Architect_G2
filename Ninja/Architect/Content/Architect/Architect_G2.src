@@ -7,6 +7,7 @@ constructions\constructions_oldworld.d
 constructions\constructions_planks.d
 constructions\constructions_stones.d
 constructions\constructions_custom_construction.d
+constructions\constructions_custom_interactive.d
 Architect_Data.d
 
 TranslationUtils.d

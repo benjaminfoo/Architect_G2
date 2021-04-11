@@ -29,7 +29,8 @@ const int CONSTRUCTION_CATEGORY_MOBS_PLANKS = 6;
 const int CONSTRUCTION_CATEGORY_MOBS_STONES = 7;
 const int CONSTRUCTION_CATEGORY_CUSTOM_CONSTRUCTION = 8;
 const int CONSTRUCTION_CATEGORY_CUSTOM_NATURE = 9;
-const int CONSTRUCTION_CATEGORIES_MAX = 10;
+const int CONSTRUCTION_CATEGORY_CUSTOM_INTERACTIVE = 10;
+const int CONSTRUCTION_CATEGORIES_MAX = 11;
 
 // reads an entry from an given array by an index
 // this function is used for reading entries from category array, for example: 
@@ -94,7 +95,14 @@ func string ReadUIArray(var int which_array, var int index) {
 		ARC_STRUCTURES_MAX = CONSTRUCTION_SET_CUSTOM_NATURE_GRASS_MAX;
 		currentConstructionCategoryName = CONSTRUCTION_SET_CUSTOM_NATURE_GRASS_NAME;
 		return MEM_ReadStatStringArr(CONSTRUCTION_SET_CUSTOM_NATURE_GRASS, currentlySelectedBuildingIndex);
+    }
+	
+	else if which_array == CONSTRUCTION_CATEGORY_CUSTOM_INTERACTIVE {
+		ARC_STRUCTURES_MAX = CONSTRUCTION_SET_CUSTOM_INTERACTIVE_MAX;
+		currentConstructionCategoryName = CONSTRUCTION_SET_CUSTOM_INTERACTIVE_NAME;
+		return MEM_ReadStatStringArr(CONSTRUCTION_SET_CUSTOM_INTERACTIVE, currentlySelectedBuildingIndex);
     };
+	
 	
 	return "You shouldn't have reached this line ...";
 };

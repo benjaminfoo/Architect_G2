@@ -14,6 +14,7 @@ Content\Architect\constructions\constructions_planks.d
 Content\Architect\constructions\constructions_stones.d
 Content\Architect\constructions\constructions_custom_construction.d
 Content\Architect\constructions\constructions_custom_nature_grass.d
+Content\Architect\constructions\constructions_custom_interactive.d
 Content\Architect\Architect_Data.d
 
 Content\Architect\PlayerSettings.d

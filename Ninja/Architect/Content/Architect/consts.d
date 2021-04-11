@@ -8,7 +8,7 @@
 ////////////////////////////////////////////// 
 
 // a simple version string
-const string Architect_Version = "Architect v0.3.2a";
+const string Architect_Version = "Architect v0.3.3";
 
 // 
 // These constants are gathered from the fabulos GFA project of mud_freak.

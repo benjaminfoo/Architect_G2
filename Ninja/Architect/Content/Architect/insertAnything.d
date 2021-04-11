@@ -593,7 +593,7 @@ func int InsertMobContainerPos(var string nm, var string vis, var int pos, var i
 };
 func int InsertMobContainerWP(var string nm, var string vis, var string wp) {
     return InsertObjectWP("oCMobContainer", nm, vis, wp, 0);
-};
+}; 
 
 
 /*

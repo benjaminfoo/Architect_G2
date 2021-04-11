@@ -150,7 +150,7 @@ func void Transformation_Loop (){
 		};
 		
 		updateModeView();
-		Snd_Play("M_FALL_SMALL");
+		Snd_Play(TOGGLE_TRANSLATION_BLIP);
 	};
 	
 		
