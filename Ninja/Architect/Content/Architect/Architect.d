@@ -75,9 +75,7 @@ func void Architect_Init() {
 	
 	// initialize user ability to modify vob trafo
     initialize_transformations();
-       
-    CC_Register(SpawnConstruction, "SpawnConstruction ", "Spawns a construction.");
-    
+           
     // register frame functions
     FF_ApplyGT(Architect_Input_Loop);
     FF_ApplyGT(Architect_Late_Update);
@@ -135,9 +133,7 @@ func void DeleteRayCastedObject(){
 // 
 // spawn a construction by providing a name and a position
 // 
-func string SpawnConstructionWithPosition(var string constructionName, var int posx, var int posy, var int posz) {
-
-	PrintS(ConcatStrings("Spawning: ", constructionName));
+func void SpawnConstructionWithPosition(var string constructionName, var int posx, var int posy, var int posz) {
 	
 	// create an empty integer array which holds the current position of the player
 	var int position[3];
@@ -164,7 +160,6 @@ func string SpawnConstructionWithPosition(var string constructionName, var int p
 	var string message; 
 	message = cs4("Spawned construction: ", constructionName, " - Total construction: ", IntToString(MEM_ArraySize(undoArray)));
 	PrintS (message);
-    return message;
 };
 
 
@@ -174,10 +169,8 @@ func string SpawnConstructionWithPosition(var string constructionName, var int p
 // NOTE: 
 // - Mobnames are defined in  : Gothic_2_Workspace\_work\Data\Scripts\Content\Story\Text.d
 // - Mob Functions are def. in: Gothic_2_Workspace\_work\Data\Scripts\Content\AI\AI_Intern\AI_Constants.d 
-func string SpawnInteractiveConstructionWithPosition(var string constructionName, var int posx, var int posy, var int posz) {
+func void SpawnInteractiveConstructionWithPosition(var string constructionName, var int posx, var int posy, var int posz) {
 
-	PrintS(ConcatStrings("Spawning: ", constructionName));
-	
 	// create an empty integer array which holds the current position of the player
 	var int position[3];
 	position[0] = posx;
@@ -208,12 +201,23 @@ func string SpawnInteractiveConstructionWithPosition(var string constructionName
 		SetMobMisc(currentConstructionPtr, "", "", "POTIONALCHEMY");
 		SetMobName(currentConstructionPtr, "MOBNAME_LAB");
 
+	} else if
+	(
+				STR_IndexOf(constructionName, "CHAIR") != -1  ||
+				STR_IndexOf(constructionName, "THRONE") != -1 ||
+				STR_IndexOf(constructionName, "BENCH") != -1 
+	){
+		
+		currentConstructionPtr = InsertMobInterPos ("MOBNAME_BENCH", constructionName, _@(position), 0);
+		// SetMobMisc(currentConstructionPtr, "", "", "POTIONALCHEMY");
+		SetMobName(currentConstructionPtr, "MOBNAME_BENCH");
+
 	};
 	
 	if(currentConstructionPtr == 0){
 		const string errMsg = "Error while spawning: Invalid SpawnInteractiveConstructionWithPosition call!";
 		PrintS(errMsg);
-		return errMsg;
+		return;
 	};
 			
 	// get a reference to the visual object via its pointer 
@@ -231,7 +235,6 @@ func string SpawnInteractiveConstructionWithPosition(var string constructionName
 	var string message; 
 	message = cs4("Spawned construction: ", constructionName, " - Total construction: ", IntToString(MEM_ArraySize(undoArray)));
 	PrintS (message);
-    return message;
 };
 
 
@@ -239,7 +242,7 @@ func string SpawnInteractiveConstructionWithPosition(var string constructionName
 // 
 // spawn a construction by providing a name
 // 
-func string SpawnConstruction(var string constructionName) {
+func void SpawnConstruction(var string constructionName) {
 
     // get position of the player
     var zCVob her; her = Hlp_GetNpc(hero);
@@ -253,7 +256,7 @@ func string SpawnConstruction(var string constructionName) {
     playerPosition[2] = her.trafoObjToWorld[11];
 			
 	// ...
-	return SpawnConstructionWithPosition(constructionName, playerPosition[0], playerPosition[1], playerPosition[2]);
+	SpawnConstructionWithPosition(constructionName, playerPosition[0], playerPosition[1], playerPosition[2]);
 };
 
 
