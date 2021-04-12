@@ -36,6 +36,18 @@ const int sizeof_zVEC3                               = 12;  //0x000C
 const int zCWorld__TraceRayNearestHit_Vob            =  6430624; //0x621FA0
 
 
+// 
+// Mouse-Wheel
+// 
+
+// G1 Cursor Pointer
+// const int Cursor_Ptr = 8834220; //0x86CCAC
+
+// G2 Cursor Pointer
+const int Cursor_Ptr = 9246300; //0x8D165C
+const int CUR_WheelUp    = 3;
+const int CUR_WheelDown  = 4;
+
 
 // 
 // Sounds

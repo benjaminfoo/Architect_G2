@@ -44,6 +44,33 @@ Im folgenden ein paar Screenshots um die Funktionalität vorzustellen.
 - Den "Architect"-Ordner unter den Pfad \Steam\steamapps\common\Gothic II_work\Data\Scripts\Content kopieren, verschieben, etc.
 - Die Methode "Architect_Init()" in INIT_GLOBAL() via Startup.d (\dev\Steam\steamapps\common\Gothic II_work\Data\Scripts\Content\Story\Startup.d) ausführen (muss noch von Hand eingetragen werden - ich werde noch einen Ninja-Patch für dieses Projekt erstellen)
 
+## Changelog
+In diesem Post möchte ich die Änderungen festhalten.
+
+##### Version 0.3.3
+- Integration interaktiver Vobs / Mobs (Betten, Schrein, Alchemietisch, ...)
+- Rotationsfrequenz verringert - ermöglicht präzise Positionierung und Ausrichtung
+- Konsolen-Befehle integriert:
+ - Architect: Zeigt die InGame-Hilfe an
+ - SetHome: Legt die aktuelle Position als Heimat-Ort fest
+ - GetHome: Lässt den Spieler zum Heimat-Ort zurückkehren
+- Performance Optimierungen, refactoring  & bug-fixing
+
+
+
+##### Version 0.3.2
+- Erweiterung: Tastatur => Numpad 5: Kollision des aktiven (erstellten oder gewählten) Vobs toggle
+- Neues Release auf Github 
+
+##### Version 0.3.1
+- VDF-Variante für Ninja
+- Bugfixes (EventHandler für Maus ersetzt durch Custom-FrameFunction)
+- Neues Release auf Github
+
+##### Version 0.3.0
+- Initiales Release des Projekts
+- Ein paar Grafiken (Banner, Dokumentation, etc.) erstellt
+
 ## Nutzung / Eingabe
 Die Nutzung des Projekts erfordert eine gewisse Einarbeitungszeit in die Verwendung der Shortcuts und Eingaben. \
 Ich habe diese angelehnt an Programme wie Blender oder den Spacer gewählt. 

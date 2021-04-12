@@ -9,9 +9,44 @@ var int homePosX;
 var int homePosY;
 var int homePosZ;
 
+// string builder for the ingame help
+var int ingameHelpSB; 
+	
+// register console commands
 func void playerSettings_init(){
 	CC_Register(SetHome, "Set_Home ", "Sets the current position as the players home.");
     CC_Register(GetHome, "Get_Home ", "Returns to the position which has been set as Home (call Set_Home first)");
+    CC_Register(ShowHelp, "Architect ", "Shows help about the architect mod.");
+};
+
+// this function enables the sprint overlay, allowing the player to sprint without using a potion
+// this is left from the tutorial but i like it =)
+func string ShowHelp(var string paramter) {
+
+	if(ingameHelpSB != 0){
+		SB_Destroy();
+	};
+
+	// create a new string builder, but build its contents just once
+	if(ingameHelpSB == 0){
+		ingameHelpSB = SB_New();
+		
+		SB (Architect_Version);
+		SB ("\n");
+		SB ("Dies ist die In-Game Hilfe der Architect Mod."); 
+		SB ("\n");
+		SB ("Set_Home - Definiert die aktuelle Position als Heimat-Position. \n");
+		SB ("Get_Home - Teleportiert den Spieler zur zuvor definierten Heimt-Position. \n");
+		SB ("\n");
+		SB ("See the release thread for further help: \n");
+		SB ("https://forum.worldofplayers.de/forum/threads/1575628-Release-Architect");
+	};
+
+    // SB (", ");                // String anhängen
+    // SB_Destroy();             // StringBuilder zerstören
+	// PrintS(SB_ToString());    // Als String ausgeben
+
+    return SB_ToString();
 };
 
 // 

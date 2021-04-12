@@ -134,9 +134,7 @@ func void Transformation_Loop (){
 	// dont do anything if the mod is not enabled
 	if(Architect_Mod_Enabled == 0){ return; };
 	
-	if (!Hlp_IsValidNpc(hero)) { return;  };
-    if (!mem_game.timestep) { return; };
-	
+	// dont try to transform anything if there isnt anything
 	if(currentConstructionPtr == 0){ return; };
 	
 	translateKeyState = MEM_KeyState (translateKey); // KEY_T

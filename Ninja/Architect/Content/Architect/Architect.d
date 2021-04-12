@@ -10,7 +10,6 @@
 // TODO:
 // - ignore collisions of rays => hard distance move + disable currents vob collision
 // - rotate construction to view at player
-// - mal ne runde refactoren wäre nicht verkehrt
 // - ConcatStrings und Konsorten mit https://lego.worldofplayers.de/?Beispiele_StringBuilder ersetzen
 
 // an int / boolean which determines if the mod is enabled or not
@@ -37,8 +36,6 @@ var int placementReturnState;
 // boolean flag do indicate usage of collisions while determine an objects position
 var int register_collisions;
 
-// string builder for the ingame help
-var int ingameHelpSB; 
 
 // the initialize function, (should) get(s) called in Startup.d
 func void Architect_Init() {
@@ -79,50 +76,19 @@ func void Architect_Init() {
 	// initialize user ability to modify vob trafo
     initialize_transformations();
        
-    // register console commands
-    CC_Register(ShowHelp, "Architect ", "Shows help about the architect mod.");
     CC_Register(SpawnConstruction, "SpawnConstruction ", "Spawns a construction.");
     
     // register frame functions
     FF_ApplyGT(Architect_Input_Loop);
     FF_ApplyGT(Architect_Late_Update);
-    FF_ApplyGT(Architect_Render_Loop);
     
     // register mouse listener 
 	// Event_Add(Cursor_Event, MouseInputListener);
 	FF_ApplyGT(MouseInputListener);
+	
 };
 
 
-// this function enables the sprint overlay, allowing the player to sprint without using a potion
-// this is left from the tutorial but i like it =)
-func string ShowHelp(var string paramter) {
-
-	if(ingameHelpSB != 0){
-		SB_Destroy();
-	};
-
-	// create a new string builder, but build its contents just once
-	if(ingameHelpSB == 0){
-		ingameHelpSB = SB_New();
-		
-		SB (Architect_Version);
-		SB ("\n");
-		SB ("Dies ist die In-Game Hilfe der Architect Mod."); 
-		SB ("\n");
-		SB ("Set_Home - Definiert die aktuelle Position als Heimat-Position. \n");
-		SB ("Get_Home - Teleportiert den Spieler zur zuvor definierten Heimt-Position. \n");
-		SB ("\n");
-		SB ("See the release thread for further help: \n");
-		SB ("https://forum.worldofplayers.de/forum/threads/1575628-Release-Architect");
-	};
-
-    // SB (", ");                // String anhängen
-    // SB_Destroy();             // StringBuilder zerstören
-	// PrintS(SB_ToString());    // Als String ausgeben
-
-    return SB_ToString();
-};
 
 // deletes the last built construction
 func void DeleteConstruction(var int vobPtr){
@@ -148,6 +114,8 @@ func void DeleteConstruction(var int vobPtr){
 	};
 	
 };
+
+
 
 func void DeleteRayCastedObject(){
 		
@@ -193,10 +161,12 @@ func string SpawnConstructionWithPosition(var string constructionName, var int p
 	// add the pointer of the vob to the construction history list
 	MEM_ArrayInsert (undoArray, currentConstructionPtr);
 	
-	PrintS(cs4("Spawned construction: ", constructionName, " - Total construction: ", IntToString(MEM_ArraySize(undoArray))));
-			
-    return cs4("Spawned construction: ", constructionName, " - Total construction: ", IntToString(MEM_ArraySize(undoArray)));
+	var string message; 
+	message = cs4("Spawned construction: ", constructionName, " - Total construction: ", IntToString(MEM_ArraySize(undoArray)));
+	PrintS (message);
+    return message;
 };
+
 
 
 // 
@@ -228,26 +198,14 @@ func string SpawnInteractiveConstructionWithPosition(var string constructionName
 		
 	} else if(STR_IndexOf(constructionName, "INNOS") != -1){
 		
-		// the pointer to the current object / construction which gets spawned
-		// update pointer reference of the last built construction
 		currentConstructionPtr = InsertMobInterPos ("MOBNAME_INNOS", constructionName, _@(position), 0);
-
-		// func void SetMobMisc(int mobPtr, string triggerTarget, string useWithItem, string onStateFuncName)
 		SetMobMisc(currentConstructionPtr, "", "", "PRAYSHRINE");
-
-		// Set focus name
 		SetMobName(currentConstructionPtr, "MOBNAME_INNOS");
 
 	} else if(STR_IndexOf(constructionName, "LAB") != -1){
 		
-		// the pointer to the current object / construction which gets spawned
-		// update pointer reference of the last built construction
 		currentConstructionPtr = InsertMobInterPos ("MOBNAME_LAB", constructionName, _@(position), 0);
-
-		// func void SetMobMisc(int mobPtr, string triggerTarget, string useWithItem, string onStateFuncName)
 		SetMobMisc(currentConstructionPtr, "", "", "POTIONALCHEMY");
-				
-		// Set focus name
 		SetMobName(currentConstructionPtr, "MOBNAME_LAB");
 
 	};
@@ -270,10 +228,12 @@ func string SpawnInteractiveConstructionWithPosition(var string constructionName
 	// add the pointer of the vob to the construction history list
 	MEM_ArrayInsert (undoArray, currentConstructionPtr);
 	
-	PrintS(cs4("Spawned construction: ", constructionName, " - Total construction: ", IntToString(MEM_ArraySize(undoArray))));
-			
-    return cs4("Spawned construction: ", constructionName, " - Total construction: ", IntToString(MEM_ArraySize(undoArray)));
+	var string message; 
+	message = cs4("Spawned construction: ", constructionName, " - Total construction: ", IntToString(MEM_ArraySize(undoArray)));
+	PrintS (message);
+    return message;
 };
+
 
 
 // 
@@ -296,6 +256,8 @@ func string SpawnConstruction(var string constructionName) {
 	return SpawnConstructionWithPosition(constructionName, playerPosition[0], playerPosition[1], playerPosition[2]);
 };
 
+
+
 //
 // gets executed every milli second
 // checks if the "V"-Key has been pressed
@@ -306,42 +268,44 @@ func string SpawnConstruction(var string constructionName) {
 func void Architect_Input_Loop() {
 
 
-
 	// If the Key "F12" is pressed - toggle state of the mod
 	if (MEM_KeyState (KEY_F12) == KEY_RELEASED) {
 	
 		// toggle the state of the mod
+		// if the mod is disabled and gets enabled ...
 		if(Architect_Mod_Enabled == 0 ){ 
 			
+			// initialize the user interface
 			initialize_ui();
 			
+			// re-register frame functions
+			FF_ApplyGT(Architect_Input_Loop);
+			FF_ApplyGT(Architect_Late_Update);
+			FF_ApplyGT(MouseInputListener);
+			
 			Architect_Mod_Enabled = 1;
+			
 			PrintS("Architect mod enabled!");
+
 		}
 		else if(Architect_Mod_Enabled == 1 ){
 		
+			// complete destroy the user interface
 			destroy_ui();
+			
+			// de-register frame functions
+			FF_Remove(Architect_Input_Loop);
+			FF_Remove(Architect_Late_Update);
+			FF_Remove(MouseInputListener);
 		
 			Architect_Mod_Enabled = 0;
+			
 			PrintS("Architect mod disabled!");
+			
 		};
 		
 	};
-
 	
-	
-	// If the Key is pressed - toggle state of the mod
-	if (MEM_KeyState (KEY_H) == KEY_RELEASED) {
-	
-		var zCVob her; her = Hlp_GetNpc(hero);
-		
-		her.trafoObjToWorld[3] = addf(her.trafoObjToWorld[3], 1);
-
-		PrintS ("Adjusting ...");
-		
-		VobPositionUpdated(hero);
-	};
-
 	
 	
 	// dont do anything if the mod is not enabled
@@ -600,13 +564,6 @@ func void Architect_Late_Update(){
 };
 
 
-// G1 Cursor Pointer
-// const int Cursor_Ptr = 8834220; //0x86CCAC
-
-// G2 Cursor Pointer
-const int Cursor_Ptr = 9246300; //0x8D165C
-const int CUR_WheelUp    = 3;
-const int CUR_WheelDown  = 4;
 
 // 
 // Listener / Handler for mouse input.
@@ -616,23 +573,13 @@ const int CUR_WheelDown  = 4;
 // 
 func void MouseInputListenerCustom(var int state) {
 
-	if(MEM_KeyState(CUR_WheelUp) == KEY_PRESSED){
-		PrintS("Scrolled up!");
-	};
-	
 	// dont do anything if the mod is not enabled
 	if(Architect_Mod_Enabled == 0){ return; };
-	
-	if (!Hlp_IsValidNpc(hero)) { return;  };
-    if (!mem_game.timestep) { return; };
-	
-	
-    
+	    
 	// https://forum.worldofplayers.de/forum/threads/1505251-Skriptpaket-LeGo-4/page22
 	const int delay = 50;
     var int prevUpScroll;
     var int prevDownScroll;
-    var int prevDownRightClick;
     var int timer; timer = Timer();
 
 	//	we're using these blocks to disable multiple recieval of scroll events
@@ -653,16 +600,6 @@ func void MouseInputListenerCustom(var int state) {
             return; 
         };
         prevDownScroll = timer;
-    };
-	
-	//	we're using these blocks to disable multiple recieval of click events
-    if (state == CUR_RightClick) {
-        if (prevDownRightClick + delay < timer) {
-            // continue executing the listener    
-        } else {
-            return; 
-        };
-        prevDownRightClick = timer;
     };
 	
 	// if the player is placing some kind of construction dont scroll through the buildings list
@@ -705,25 +642,14 @@ func void MouseInputListenerCustom(var int state) {
 		};
 		
     };
-	
-    if(state == CUR_LeftClick) {
-	
-	};
-	
-    if(state == CUR_RightClick) {
-					
-    };
-	
-    if(state == CUR_MidClick) { 
-	
-	};
-
 		
 };
 
 // 
 // A custom input listener which fetches the state of the mouse wheel and delegates the informations
 // to another custom method =).
+// Note: Gets called when wheel up or down is used.
+//
 func void MouseInputListener() {
 
     var _Cursor c; c = _^(Cursor_Ptr);

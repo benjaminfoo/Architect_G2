@@ -126,14 +126,3 @@ func void destroy_ui(){
 	};
 	
 };
-
-// Architect Mod
-// Category: <category>
-// Building: <building>
-
-// The render loop which handles user interface updates
-func void Architect_Render_Loop(){
-	
-};
-
-
