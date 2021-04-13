@@ -176,8 +176,12 @@ func void SpawnInteractiveConstructionWithPosition(var string constructionName, 
 	position[0] = posx;
 	position[1] = posy;
 	position[2] = posz;
-
-	if(STR_IndexOf(constructionName, "BED") != -1){
+	
+	if
+	(
+		STR_IndexOf(constructionName, "BED") != -1
+	)
+	{
 		
 		// the pointer to the current object / construction which gets spawned
 		// update pointer reference of the last built construction
@@ -188,38 +192,100 @@ func void SpawnInteractiveConstructionWithPosition(var string constructionName, 
 			
 		// Set focus name			
 		SetMobName(currentConstructionPtr, "MOBNAME_BED");
-		
-	} else if(STR_IndexOf(constructionName, "INNOS") != -1){
-		
+	} 
+	
+	else if
+	(
+		STR_IndexOf(constructionName, "INNOS") != -1
+	)
+	{
 		currentConstructionPtr = InsertMobInterPos ("MOBNAME_INNOS", constructionName, _@(position), 0);
 		SetMobMisc(currentConstructionPtr, "", "", "PRAYSHRINE");
 		SetMobName(currentConstructionPtr, "MOBNAME_INNOS");
-
-	} else if(STR_IndexOf(constructionName, "LAB") != -1){
-		
+	} 
+	
+	else if
+	(
+		STR_IndexOf(constructionName, "LAB") != -1
+	)
+	{
 		currentConstructionPtr = InsertMobInterPos ("MOBNAME_LAB", constructionName, _@(position), 0);
 		SetMobMisc(currentConstructionPtr, "", "", "POTIONALCHEMY");
 		SetMobName(currentConstructionPtr, "MOBNAME_LAB");
-
-	} else if
+	} 
+	
+	else if
 	(
 				STR_IndexOf(constructionName, "CHAIR") != -1  ||
 				STR_IndexOf(constructionName, "THRONE") != -1 ||
 				STR_IndexOf(constructionName, "BENCH") != -1 
-	){
-		
+	)
+	{
 		currentConstructionPtr = InsertMobInterPos ("MOBNAME_BENCH", constructionName, _@(position), 0);
-		// SetMobMisc(currentConstructionPtr, "", "", "POTIONALCHEMY");
 		SetMobName(currentConstructionPtr, "MOBNAME_BENCH");
+	}
+	
+	else if
+	(
+				STR_IndexOf(constructionName, "BAUMSAEGE_1") != -1  ||
+				STR_IndexOf(constructionName, "LADDER") != -1 
+	)
+	{
+		currentConstructionPtr = InsertMobInterPos ("MOBNAME_BENCH", constructionName, _@(position), 0);
+		SetMobName(currentConstructionPtr, "MOBNAME_BENCH");
+	}
 
+	else if
+	(
+				STR_IndexOf(constructionName, "DOOR") != -1
+	)
+	{
+		
+		currentConstructionPtr = InsertMobDoorPos ("MOBNAME_DOOR", constructionName, _@(position), 0);
+		SetMobName(currentConstructionPtr, "MOBNAME_DOOR");
+
+	} 
+	
+	else if
+	(
+				STR_IndexOf(constructionName, "CAULDRON") != -1
+	)
+	{
+		
+		currentConstructionPtr = InsertMobInterPos ("MOBNAME_CAULDRON", constructionName, _@(position), 0);
+		SetMobName(currentConstructionPtr, "MOBNAME_CAULDRON");
+
+	} 
+	
+	else if
+	(
+				STR_Contains(constructionName, "STOVE")
+	)
+	{
+		
+		currentConstructionPtr = InsertMobInterPos ("MOBNAME_STOVE", constructionName, _@(position), 0);
+		SetMobName(currentConstructionPtr, "MOBNAME_STOVE");
+		SetMobMisc(currentConstructionPtr, "", "ITFOMUTTONRAW", "");
+	}
+
+	else if
+	(
+		STR_Contains(constructionName, "RMAKER_1")
+	)
+	{
+		currentConstructionPtr = InsertMobInterPos ("MOBNAME_RUNEMAKER", constructionName, _@(position), 0);
+		SetMobName(currentConstructionPtr, "MOBNAME_RUNEMAKER");
+		SetMobMisc(currentConstructionPtr, "", "ITMI_RUNEBLANK", "MAKERUNE");
 	};
+
 	
 	if(currentConstructionPtr == 0){
 		const string errMsg = "Error while spawning: Invalid SpawnInteractiveConstructionWithPosition call!";
 		PrintS(errMsg);
 		return;
 	};
-			
+
+	
 	// get a reference to the visual object via its pointer 
 	var zCVob vob; vob = _^(currentConstructionPtr);
 			
@@ -470,6 +536,18 @@ func void Architect_Input_Loop() {
         vob.bitfield[0] = vob.bitfield[0] |  zCVob_bitfield0_showVisual;
         vob.bitfield[0] = vob.bitfield[0] |  zCVob_bitfield0_collDetectionDynamic;
         vob.bitfield[0] = vob.bitfield[0] |  zCVob_bitfield0_collDetectionStatic;
+		
+		if (Hlp_Is_oCMob(currentConstructionPtr)) {
+			var oCMob mob; mob = _^(currentConstructionPtr);
+			
+			if(STR_Contains(mob.name, "RMAKER")){
+				vob.bitfield[0] = vob.bitfield[0] |  zCVob_bitfield0_staticVob;
+			} else {
+				PrintS("Construction is no mob :( ");
+			};
+		};
+		
+
 
 		// notify user about which construction gets spawned
 		PrintS(ConcatStrings("Spawning construction: ", currentlySelectedBuildingName));
