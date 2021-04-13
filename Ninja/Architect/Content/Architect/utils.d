@@ -146,22 +146,30 @@ func int max6(var int i1, var int i2, var int i3, var int i4, var int i5, var in
 
 func int STR_Contains(var string source, var string token){
 	var int result; result = 0;
-	if(STR_IndexOf(source, token) != -1){
+	if(STR_IndexOf(source, token) != -1){ // result does not equal -1 => token has been found in source somewhere
 		result = 1;
+		return result;
 	};
 	return result;
 };
 
 func int STR_Contains2(var string source, var string token, var string token2){
-	return STR_Contains(source, token) || STR_Contains(source, token2);
+	if (STR_Contains(source, token ))  { return 1; };
+	if (STR_Contains(source, token2)) { return 1; };
+	return 0;
 };
 
 func int STR_Contains3(var string source, var string token, var string token2, var string token3){
-	return STR_Contains(source, token) || STR_Contains(source, token2) || STR_Contains(source, token3);
+	if (STR_Contains(source, token ))  { return 1; };
+	if (STR_Contains(source, token2)) { return 1; };
+	if (STR_Contains(source, token3)) { return 1; };
+	return 0;
 };
 
 func int STR_Contains4(var string source, var string token, var string token2, var string token3, var string token4){
-	return STR_Contains(source, token) || STR_Contains(source, token2) || STR_Contains(source, token3) || STR_Contains(source, token4);
+	if (STR_Contains(source, token ))  { return 1; };
+	if (STR_Contains(source, token2)) { return 1; };
+	if (STR_Contains(source, token3)) { return 1; };
+	if (STR_Contains(source, token4)) { return 1; };
+	return 0;
 };
-
-

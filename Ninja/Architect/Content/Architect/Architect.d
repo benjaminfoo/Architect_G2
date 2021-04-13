@@ -179,7 +179,7 @@ func void SpawnInteractiveConstructionWithPosition(var string constructionName, 
 	
 	if
 	(
-		STR_IndexOf(constructionName, "BED") != -1
+		STR_Contains(constructionName, "BED")
 	)
 	{
 		
@@ -196,7 +196,7 @@ func void SpawnInteractiveConstructionWithPosition(var string constructionName, 
 	
 	else if
 	(
-		STR_IndexOf(constructionName, "INNOS") != -1
+		STR_Contains(constructionName, "INNOS")
 	)
 	{
 		currentConstructionPtr = InsertMobInterPos ("MOBNAME_INNOS", constructionName, _@(position), 0);
@@ -206,7 +206,7 @@ func void SpawnInteractiveConstructionWithPosition(var string constructionName, 
 	
 	else if
 	(
-		STR_IndexOf(constructionName, "LAB") != -1
+		STR_Contains(constructionName, "LAB") 
 	)
 	{
 		currentConstructionPtr = InsertMobInterPos ("MOBNAME_LAB", constructionName, _@(position), 0);
@@ -216,9 +216,7 @@ func void SpawnInteractiveConstructionWithPosition(var string constructionName, 
 	
 	else if
 	(
-				STR_IndexOf(constructionName, "CHAIR") != -1  ||
-				STR_IndexOf(constructionName, "THRONE") != -1 ||
-				STR_IndexOf(constructionName, "BENCH") != -1 
+		STR_Contains3(constructionName, "CHAIR", "THRONE", "BENCH")
 	)
 	{
 		currentConstructionPtr = InsertMobInterPos ("MOBNAME_BENCH", constructionName, _@(position), 0);
@@ -227,17 +225,17 @@ func void SpawnInteractiveConstructionWithPosition(var string constructionName, 
 	
 	else if
 	(
-				STR_IndexOf(constructionName, "BAUMSAEGE_1") != -1  ||
-				STR_IndexOf(constructionName, "LADDER") != -1 
+		STR_Contains2(constructionName, "BAUMSAEGE", "LADDER")
 	)
 	{
+		// TODO: this will lead to an empty name: MOBNAME_BENCH = ""
 		currentConstructionPtr = InsertMobInterPos ("MOBNAME_BENCH", constructionName, _@(position), 0);
 		SetMobName(currentConstructionPtr, "MOBNAME_BENCH");
 	}
 
 	else if
 	(
-				STR_IndexOf(constructionName, "DOOR") != -1
+		STR_Contains(constructionName, "DOOR")
 	)
 	{
 		
@@ -247,8 +245,8 @@ func void SpawnInteractiveConstructionWithPosition(var string constructionName, 
 	} 
 	
 	else if
-	(
-				STR_IndexOf(constructionName, "CAULDRON") != -1
+	(	
+		STR_Contains(constructionName, "CAULDRON")
 	)
 	{
 		
@@ -259,10 +257,9 @@ func void SpawnInteractiveConstructionWithPosition(var string constructionName, 
 	
 	else if
 	(
-				STR_Contains(constructionName, "STOVE")
+		STR_Contains(constructionName, "STOVE")
 	)
 	{
-		
 		currentConstructionPtr = InsertMobInterPos ("MOBNAME_STOVE", constructionName, _@(position), 0);
 		SetMobName(currentConstructionPtr, "MOBNAME_STOVE");
 		SetMobMisc(currentConstructionPtr, "", "ITFOMUTTONRAW", "");
@@ -472,7 +469,7 @@ func void Architect_Input_Loop() {
 		
 				
 		// update for interactive vobs
-		if(STR_IndexOf(currentlySelectedBuildingName, ".ASC") > 0){
+		if(STR_Contains(currentlySelectedBuildingName, ".ASC")){
 
 			// spawn the interactive construction
 			SpawnInteractiveConstructionWithPosition(
@@ -537,17 +534,6 @@ func void Architect_Input_Loop() {
         vob.bitfield[0] = vob.bitfield[0] |  zCVob_bitfield0_collDetectionDynamic;
         vob.bitfield[0] = vob.bitfield[0] |  zCVob_bitfield0_collDetectionStatic;
 		
-		if (Hlp_Is_oCMob(currentConstructionPtr)) {
-			var oCMob mob; mob = _^(currentConstructionPtr);
-			
-			if(STR_Contains(mob.name, "RMAKER")){
-				vob.bitfield[0] = vob.bitfield[0] |  zCVob_bitfield0_staticVob;
-			} else {
-				PrintS("Construction is no mob :( ");
-			};
-		};
-		
-
 
 		// notify user about which construction gets spawned
 		PrintS(ConcatStrings("Spawning construction: ", currentlySelectedBuildingName));

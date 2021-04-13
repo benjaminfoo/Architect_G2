@@ -48,7 +48,7 @@ const string CONSTRUCTION_SET_CUSTOM_INTERACTIVE[CONSTRUCTION_SET_CUSTOM_INTERAC
 	"LADDER_8.ASC",
 	"LADDER_9.ASC",
 	"LADDER_10.ASC",
-	"DOOR_NW_NORMAL_01.ASC", 							// doors
+	"DOOR_NW_NORMAL_01.ASC", 							// doors => die Zeile: 		if(STR_IndexOf(currentlySelectedBuildingName, ".ASC") > 0){ macht probleme?
 	"BAUMSAEGE_1.ASC",									// misc
 	"CAULDRON_OC.ASC",
 	"STOVE_NW_CITY_01.ASC",
