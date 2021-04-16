@@ -37,7 +37,7 @@ const string CONSTRUCTION_SET_CUSTOM_INTERACTIVE[CONSTRUCTION_SET_CUSTOM_INTERAC
 	"BEDHIGH_NW_NORMAL_01.ASC",
 	"BEDHIGH_NW_EDEL_01.ASC",
 	"BEDHIGH_NW_MASTER_01.ASC",
-	"INNOS_NW_MISC_01.ASC",							// innos statue
+	"INNOS_NW_MISC_01.ASC",							    // innos statue
 	"LAB_PSI.ASC",										// alchemy table
 	"LADDER_2.ASC",										// ladders		
 	"LADDER_3.ASC",

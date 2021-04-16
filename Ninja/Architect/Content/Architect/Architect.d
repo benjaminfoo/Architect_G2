@@ -157,9 +157,6 @@ func void SpawnConstructionWithPosition(var string constructionName, var int pos
 	// add the pointer of the vob to the construction history list
 	MEM_ArrayInsert (undoArray, currentConstructionPtr);
 	
-	var string message; 
-	message = cs4("Spawned construction: ", constructionName, " - Total construction: ", IntToString(MEM_ArraySize(undoArray)));
-	PrintS (message);
 };
 
 
@@ -294,10 +291,7 @@ func void SpawnInteractiveConstructionWithPosition(var string constructionName, 
 	
 	// add the pointer of the vob to the construction history list
 	MEM_ArrayInsert (undoArray, currentConstructionPtr);
-	
-	var string message; 
-	message = cs4("Spawned construction: ", constructionName, " - Total construction: ", IntToString(MEM_ArraySize(undoArray)));
-	PrintS (message);
+
 };
 
 
@@ -379,11 +373,13 @@ func void Architect_Input_Loop() {
 	
 	// These options are only valid if the mod is active
 	
+	/*
 	// If the Key "F10" is pressed ...
 	// TODO: just for debugging - remove in near future
 	if (MEM_KeyState (KEY_F10) == KEY_RELEASED) {
 		ExitGame();
 	};	
+	*/
 	
 	
 
@@ -603,6 +599,9 @@ func void Architect_Input_Loop() {
 // FrameFunction - gets called once per second, allows updating of the world
 //
 func void Architect_Late_Update(){
+
+	// dont do anything if the mod is not enabled
+	if(Architect_Mod_Enabled == 0){ return; };
 	
 	// there is a construction spawned already - 
 	// use the ray tracing to determine its new position
